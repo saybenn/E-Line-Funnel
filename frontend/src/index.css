@@ -1,0 +1,37 @@
+.form-label {
+    margin-bottom: 0 !important;
+}
+
+.checkout-input.form-control {
+    padding: 0;
+    background: none;
+}
+
+.checkout-label {
+    margin-top: 0;
+    margin-right: .3rem;
+}
+
+.tippy-tooltip {
+  background-color: #f0f0f0;
+  padding: .3rem;
+  border-radius: 25px;
+  color: black;
+}
+
+.btn a {
+    color: white;
+}
+
+.btn.hover-outline-dark > a {
+color: black;}
+
+button.hover-outline-dark:hover > a {
+    color: white;
+}
+
+a button {
+    width: 100%;
+}
+
+.links { padding: 0;}
