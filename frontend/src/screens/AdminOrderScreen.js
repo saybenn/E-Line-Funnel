@@ -12,6 +12,7 @@ const AdminOrderScreen = () => {
   //Hooks
   const [hidePaid, setHidePaid] = useState("");
   const [hideDelivered, setHideDelivered] = useState("");
+  const [newest, setNewest] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,6 +33,14 @@ const AdminOrderScreen = () => {
   }, [dispatch, adminInfo, orders, navigate]);
 
   //Handlers
+  const handleNewest = () => {
+    if (newest) {
+      setNewest(false);
+    } else {
+      setNewest(true);
+    }
+  };
+
   const handleHidePaid = () => {
     if (hidePaid === "") {
       setHidePaid(true);
@@ -61,10 +70,15 @@ const AdminOrderScreen = () => {
   return (
     <>
       <Row className="align-items-center justify-content-between d-flex">
-        <Col md={5}>
+        <Col md={4}>
           <h1>Order List</h1>
         </Col>
-        <Col md={3} className=" d-flex justify-content-end">
+        <Col md={2} className=" d-flex justify-content-end">
+          <Button className="my-3" onClick={handleNewest}>
+            {newest ? "Newest 1st" : "Oldest 1st"}
+          </Button>
+        </Col>
+        <Col md={2} className=" d-flex justify-content-end">
           <Button className="my-3" onClick={handleHidePaid}>
             <i class="fa-solid fa-dollar-sign"></i>{" "}
             {hidePaid === ""
@@ -75,7 +89,7 @@ const AdminOrderScreen = () => {
           </Button>
         </Col>
         <Col
-          md={4}
+          md={3}
           className=" d-flex justify-content-end"
           onClick={handleHideDelivered}
         >
@@ -112,6 +126,11 @@ const AdminOrderScreen = () => {
                 })
                 .filter((ord) => {
                   return ord.isDelivered !== hideDelivered;
+                })
+                .sort((a, b) => {
+                  return newest
+                    ? Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                    : Date.parse(a.createdAt) - Date.parse(b.createdAt);
                 })
                 .map((order) => (
                   <tr key={order._id}>
