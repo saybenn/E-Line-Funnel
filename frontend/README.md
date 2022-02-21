@@ -1,3 +1,5 @@
+This is a sales funnel. Still a WIP Project, but near completion. It will have fully functional payment processing, mailing/newsletter capabilities, and more.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
