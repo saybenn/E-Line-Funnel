@@ -48,8 +48,7 @@ const ThirdScreen = () => {
     if (!lineups) {
       dispatch(getLineups(lineup));
     }
-    if (product && product.lineUp.toLowerCase() !== lineup.toLowerCase()) {
-      console.log(21212);
+    if (product && product._id !== lineup._id) {
       dispatch({ type: GET_PRODUCT_RESET });
     }
     if (lineups && product) {

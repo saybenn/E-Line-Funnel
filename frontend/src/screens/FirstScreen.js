@@ -300,9 +300,9 @@ const FirstScreen = () => {
             <Row>
               {lineups.map((l) => {
                 return (
-                  <Col>
+                  <Col key={l._id}>
                     <Link to={`/${l.lineUp}/page`}>
-                      <Card key={l._id}>
+                      <Card>
                         <Card.Img variant="top" src={l.image} />
                         <Card.Body>
                           <Card.Title>{l.name}</Card.Title>

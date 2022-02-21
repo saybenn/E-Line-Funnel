@@ -48,7 +48,7 @@ const SecondScreen = () => {
     if (!lineups) {
       dispatch(getLineups(lineup));
     }
-    if (product && product.lineUp.toLowerCase() !== lineup.toLowerCase()) {
+    if (product && product._id !== lineup._id) {
       console.log(21212);
       dispatch({ type: GET_PRODUCT_RESET });
     }

@@ -28,6 +28,7 @@ import {
   GET_CUSTOMER_SUCCESS,
   GET_CUSTOMER_FAIL,
   EDIT_CART_RESET,
+  CREATE_CUSTOMER_RESET,
 } from "../constants/customerConstants";
 
 export const customerGetReducer = (state = {}, action) => {
@@ -58,6 +59,8 @@ export const customerCreateReducer = (state = {}, action) => {
       };
     case CREATE_CUSTOMER_FAIL:
       return { success: false, loading: false, error: action.payload };
+    case CREATE_CUSTOMER_RESET:
+      return {};
     default:
       return state;
   }

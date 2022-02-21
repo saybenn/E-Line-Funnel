@@ -12,6 +12,7 @@ import AdminCustomerScreen from "./screens/AdminCustomerScreen";
 import AdminProductScreen from "./screens/AdminProductScreen";
 import AdminOrderScreen from "./screens/AdminOrderScreen";
 import AdminScreen from "./screens/AdminScreen";
+import ProductEditScreen from "./screens/ProductEditScreen";
 import FirstScreen from "./screens/FirstScreen";
 import SecondScreen from "./screens/SecondScreen";
 import ThirdScreen from "./screens/ThirdScreen";
@@ -30,6 +31,10 @@ const App = () => {
             <Route path="/admin/login" element={<AdminLoginScreen />} />
             <Route path="/admin/panel" element={<AdminScreen />} />
             <Route path="/admin/products" element={<AdminProductScreen />} />
+            <Route
+              path="/admin/products/:id/edit"
+              element={<ProductEditScreen />}
+            />
             <Route path="/admin/customers" element={<AdminCustomerScreen />} />
             <Route path="/admin/orders" element={<AdminOrderScreen />} />
             <Route path="/" element={<FirstScreen />} />

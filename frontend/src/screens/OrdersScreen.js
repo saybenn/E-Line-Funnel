@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { getOrders } from "../actions/orderActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { GET_ORDER_RESET } from "../constants/orderConstants";
+import { GET_ORDER_RESET, ORDERS_GET_RESET } from "../constants/orderConstants";
 
 const OrdersScreen = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,9 @@ const OrdersScreen = () => {
     dispatch({ type: GET_ORDER_RESET });
     if (!orders) {
       dispatch(getOrders(id));
+    }
+    if (orders && id !== orders[0].customer.id) {
+      dispatch({ type: ORDERS_GET_RESET });
     }
   }, [dispatch, orders, id]);
   return (

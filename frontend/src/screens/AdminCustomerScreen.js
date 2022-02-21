@@ -16,11 +16,11 @@ const AdminCustomerScreen = () => {
   const userList = useSelector((state) => state.userList);
   const { users, loading, error } = userList;
   useEffect(() => {
-    if (adminInfo && !adminInfo.isAdmin) {
+    if (!adminInfo || !adminInfo.isAdmin) {
       navigate("/");
     }
     if (!users) {
-      dispatch(listUsers);
+      dispatch(listUsers());
     }
   }, [dispatch, adminInfo, users]);
   return (

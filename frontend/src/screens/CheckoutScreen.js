@@ -18,12 +18,13 @@ import {
   editCustomer,
   getCustomer,
 } from "../actions/customerActions";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   DELETE_CART_ITEM_RESET,
   GET_CART_RESET,
 } from "../constants/customerConstants";
 import { createOrder } from "../actions/orderActions";
+import { CREATE_ORDER_RESET } from "../constants/orderConstants";
 
 const CheckoutScreen = () => {
   const [name, setName] = useState("");
@@ -36,6 +37,7 @@ const CheckoutScreen = () => {
   const [message, setMessage] = useState("");
   const [editState, setEditState] = useState(false);
 
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -53,15 +55,12 @@ const CheckoutScreen = () => {
   const { success: orderSuccess, order } = orderCreate;
 
   useEffect(() => {
-    if (order) {
-      dispatch({ type: GET_CART_RESET });
-      navigate(`/orders/${order._id}`);
-    }
     if (!dbCustomer) {
-      dispatch(getCustomer(customer._id));
+      dispatch(getCustomer(id));
     }
+
     if (!cartItems) {
-      dispatch(getCart(customer._id));
+      dispatch(getCart(id));
     }
 
     if (success) {
@@ -75,6 +74,12 @@ const CheckoutScreen = () => {
       if (editSuccess) {
         dispatch(getCustomer(customer._id));
       }
+    }
+
+    if (orderSuccess) {
+      dispatch({ type: GET_CART_RESET });
+      dispatch({ type: CREATE_ORDER_RESET });
+      navigate(`/orders/${order._id}`);
     }
   }, [cartItems, success, order]);
 
@@ -102,13 +107,13 @@ const CheckoutScreen = () => {
         e.target.state.value,
         e.target.postalCode.value,
         e.target.country.value,
-        customer._id
+        dbCustomer._id
       )
     );
   };
 
   const orderHandler = () => {
-    dispatch(createOrder(cartItems, customer._id));
+    dispatch(createOrder(cartItems, dbCustomer._id));
   };
   return (
     <>
@@ -304,8 +309,11 @@ const CheckoutScreen = () => {
                         onChange={(e) => setState(e.target.value)}
                         disabled={!editState ? "disabled" : ""}
                       >
-                        <option value={customer.shippingAddress.state} default>
-                          {customer.shippingAddress.state}
+                        <option
+                          value={dbCustomer.shippingAddress.state}
+                          default
+                        >
+                          {dbCustomer.shippingAddress.state}
                         </option>
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
@@ -396,10 +404,10 @@ const CheckoutScreen = () => {
                         disabled={!editState ? "disabled" : ""}
                       >
                         <option
-                          value={customer.shippingAddress.country}
+                          value={dbCustomer.shippingAddress.country}
                           default
                         >
-                          {customer.shippingAddress.country}
+                          {dbCustomer.shippingAddress.country}
                         </option>
                         <option value="US">United States</option>
                       </Form.Select>

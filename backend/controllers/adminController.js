@@ -88,19 +88,19 @@ const getUser = asyncHandler(async (req, res) => {
 //@desc Get users orders
 //@route GET /api/admin/users/orders/:id
 //@access Admin
-const getUserOrders = asyncHandler(async (req, res) => {
-  const customer = await Customer.findById(req.params.id);
-  const orders = await Order.find({});
-  const customerOrders = orders.filter((o) => {
-    return o.customer.id == req.params.id;
-  });
-  if (customer) {
-    res.json(customerOrders);
-  } else {
-    res.status(404);
-    throw new Error("Customer orders not found");
-  }
-});
+// const getUserOrders = asyncHandler(async (req, res) => {
+//   const customer = await Customer.findById(req.params.id);
+//   const orders = await Order.find({});
+//   const customerOrders = orders.filter((o) => {
+//     return o.customer.id == req.params.id;
+//   });
+//   if (customer) {
+//     res.json(customerOrders);
+//   } else {
+//     res.status(404);
+//     throw new Error("Customer orders not found");
+//   }
+// });
 
 //@desc Delete user
 //@route DELETE /api/admin/users/:id
@@ -154,6 +154,7 @@ const getOrder = asyncHandler(async (req, res) => {
 //@route put /api/admin/orders/deliver
 //@access User
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  console.log(12);
   const order = await Order.findById(req.params.id);
   if (order) {
     order.isDelivered = true;
@@ -190,11 +191,24 @@ const createProduct = asyncHandler(async (req, res) => {
     image: "/images/sample.jpg",
     description: "Sample description",
     basePrice: 0,
-    lineUp,
+    lineUp: "",
   });
 
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
+});
+
+//@desc Get a Product
+//@route POST /api/admin/products/id
+//@access Admin
+const getProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
 });
 
 //@desc Edit a Product
@@ -205,13 +219,17 @@ const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    product.name = name;
-    product.image = image;
-    product.basePrice = basePrice;
-    product.description = description;
-    product.lineUp = lineUp;
-    const updatedProduct = await product.save();
-    res.status(201).json(product);
+    try {
+      product.name = name;
+      product.image = image;
+      product.basePrice = basePrice;
+      product.description = description;
+      product.lineUp = lineUp;
+      const updatedProduct = await product.save();
+      res.status(201).json(updatedProduct);
+    } catch (error) {
+      throw new Error(error);
+    }
   } else {
     res.status(404);
     throw new Error("Product not found");
@@ -242,9 +260,10 @@ export {
   createProduct,
   updateProduct,
   deleteProduct,
+  getProduct,
   deleteUser,
   getUser,
-  getUserOrders,
+  // getUserOrders,
   getOrder,
   updateOrderToDelivered,
 };
