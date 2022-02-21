@@ -26,42 +26,34 @@ import {
   GET_CUSTOMER_FAIL,
 } from "../constants/customerConstants";
 
-export const createCustomer =
-  (name, email, address, city, state, postalCode, country) =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: CREATE_CUSTOMER_REQUEST });
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+export const createCustomer = (customer) => async (dispatch) => {
+  try {
+    dispatch({ type: CREATE_CUSTOMER_REQUEST });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const { data } = await axios.post(
-        "/api/customers",
-        {
-          name,
-          email,
-          address,
-          city,
-          state,
-          postalCode,
-          country,
-        },
-        config
-      );
-      dispatch({ type: CREATE_CUSTOMER_SUCCESS, payload: data });
-      localStorage.setItem("e-shopCustomer", JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: CREATE_CUSTOMER_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    const { data } = await axios.post(
+      "/api/customers",
+      {
+        customer,
+      },
+      config
+    );
+    dispatch({ type: CREATE_CUSTOMER_SUCCESS, payload: data });
+    localStorage.setItem("e-shopCustomer", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: CREATE_CUSTOMER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const getCustomer = (customerId) => async (dispatch) => {
   try {

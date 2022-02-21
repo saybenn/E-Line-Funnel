@@ -2,9 +2,6 @@ import {
   LOGIN_ADMIN_FAIL,
   LOGIN_ADMIN_REQUEST,
   LOGIN_ADMIN_SUCCESS,
-  USER_DELETE_FAIL,
-  USER_DELETE_REQUEST,
-  USER_DELETE_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
@@ -16,9 +13,6 @@ import {
   PRODUCT_LIST_SUCCESS,
   LOGOUT_ADMIN_FAIL,
   LOGOUT_ADMIN_SUCCESS,
-  USER_GET_REQUEST,
-  USER_GET_SUCCESS,
-  USER_GET_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_FAIL,
@@ -83,34 +77,6 @@ export const listUsers = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
-export const getUser = (id) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: USER_GET_REQUEST });
-
-    const {
-      adminLogin: { adminInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${adminInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/customers/${id}`, config);
-
-    dispatch({ type: USER_GET_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: USER_GET_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -328,33 +294,6 @@ export const logout = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGOUT_ADMIN_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-export const deleteUser = (id) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: USER_DELETE_REQUEST });
-
-    const {
-      adminLogin: { adminInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${adminInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.delete(`/api/admin/customers/${id}`, config);
-
-    dispatch({ type: USER_DELETE_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: USER_DELETE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

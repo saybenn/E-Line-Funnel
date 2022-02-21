@@ -5,6 +5,7 @@ import {
   getOrder,
   updateOrderToPaid,
 } from "../controllers/orderController.js";
+
 router.route("/:id").post(createOrder).get(getOrder);
 router.route("/:id/pay").put(updateOrderToPaid);
 export default router;

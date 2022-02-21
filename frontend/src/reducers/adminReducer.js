@@ -16,12 +16,6 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
-  USER_DELETE_REQUEST,
-  USER_DELETE_SUCCESS,
-  USER_DELETE_FAIL,
-  USER_GET_FAIL,
-  USER_GET_SUCCESS,
-  USER_GET_REQUEST,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_FAIL,
@@ -67,32 +61,6 @@ export const userListReducer = (state = {}, action) => {
       return { loading: false, users: action.payload };
     case USER_LIST_FAIL:
       return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const userGetReducer = (state = {}, action) => {
-  switch (action.type) {
-    case USER_GET_REQUEST:
-      return { loading: true };
-    case USER_GET_SUCCESS:
-      return { loading: false, user: action.payload };
-    case USER_GET_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const userDeleteReducer = (state = {}, action) => {
-  switch (action.type) {
-    case USER_DELETE_REQUEST:
-      return { loading: true };
-    case USER_DELETE_SUCCESS:
-      return { loading: false, success: true };
-    case USER_DELETE_FAIL:
-      return { loading: false, success: false, error: action.payload };
     default:
       return state;
   }

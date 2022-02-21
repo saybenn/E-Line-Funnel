@@ -8,13 +8,17 @@ import Message from "../components/Message";
 import { listUsers } from "../actions/adminActions";
 
 const AdminCustomerScreen = () => {
+  //Hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  //Selectors
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
   const userList = useSelector((state) => state.userList);
   const { users, loading, error } = userList;
+
+  //UseEffect
   useEffect(() => {
     if (!adminInfo || !adminInfo.isAdmin) {
       navigate("/");
@@ -22,7 +26,8 @@ const AdminCustomerScreen = () => {
     if (!users) {
       dispatch(listUsers());
     }
-  }, [dispatch, adminInfo, users]);
+  }, [dispatch, adminInfo, users, navigate]);
+
   return (
     <>
       <h1>Order List</h1>

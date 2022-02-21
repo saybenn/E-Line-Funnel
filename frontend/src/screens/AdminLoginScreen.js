@@ -8,22 +8,28 @@ import FormContainer from "../components/FormContainer";
 import { login } from "../actions/adminActions.js";
 
 const LoginScreen = () => {
+  //Hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  //Selectors
   const adminLogin = useSelector((state) => state.adminLogin);
   const { loading, error, adminInfo } = adminLogin;
 
+  //UseEffect
   useEffect(() => {
     if (adminInfo && adminInfo.isAdmin) navigate("/admin/panel");
   }, [navigate, adminInfo]);
 
+  //Handlers
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
+
   return (
     <FormContainer>
       <h1>Sign In</h1>

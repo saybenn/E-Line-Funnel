@@ -17,6 +17,7 @@ import {
 } from "../constants/customerConstants";
 
 const ThirdScreen = () => {
+  //Hooks
   const [qtySmall, setQtySmall] = useState(0);
   const [priceSmall, setPriceSmall] = useState(0);
   const [qtyMedium, setQtyMedium] = useState(0);
@@ -32,8 +33,9 @@ const ThirdScreen = () => {
   const lineup = "third";
   const dispatch = useDispatch();
 
+  //Selector
   const lineupGet = useSelector((state) => state.lineupGet);
-  const { lineups, loading: lineupLoading, error: lineupError } = lineupGet;
+  const { lineups } = lineupGet;
   const productGet = useSelector((state) => state.productGet);
   const { product, loading: productLoading, error: productError } = productGet;
   const customerCreate = useSelector((state) => state.customerCreate);
@@ -41,6 +43,7 @@ const ThirdScreen = () => {
   const cartAdd = useSelector((state) => state.cartAdd);
   const { success: cartSuccess, error: cartError } = cartAdd;
 
+  //UseEffect
   useEffect(() => {
     if (!product) {
       dispatch(getProduct(lineup));
@@ -62,6 +65,7 @@ const ThirdScreen = () => {
     }
   }, [product, lineups, dispatch]);
 
+  //Handlers
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 

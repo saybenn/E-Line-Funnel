@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Customer from "../models/customerModel.js";
 
+//Get Cart Item Prices
 const getPrice = (qty) => {
   var price;
   switch (+qty) {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Button,
   Row,
@@ -18,7 +17,7 @@ import {
   editCustomer,
   getCustomer,
 } from "../actions/customerActions";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   DELETE_CART_ITEM_RESET,
   GET_CART_RESET,
@@ -27,6 +26,7 @@ import { createOrder } from "../actions/orderActions";
 import { CREATE_ORDER_RESET } from "../constants/orderConstants";
 
 const CheckoutScreen = () => {
+  //Hooks
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
@@ -41,6 +41,7 @@ const CheckoutScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Selectors
   const customerCreate = useSelector((state) => state.customerCreate);
   const { customer } = customerCreate;
   const customerGet = useSelector((state) => state.customerGet);
@@ -54,6 +55,7 @@ const CheckoutScreen = () => {
   const orderCreate = useSelector((state) => state.orderCreate);
   const { success: orderSuccess, order } = orderCreate;
 
+  //UseEffect
   useEffect(() => {
     if (!dbCustomer) {
       dispatch(getCustomer(id));
@@ -81,16 +83,22 @@ const CheckoutScreen = () => {
       dispatch({ type: CREATE_ORDER_RESET });
       navigate(`/orders/${order._id}`);
     }
-  }, [cartItems, success, order]);
+  }, [
+    cartItems,
+    success,
+    order,
+    dbCustomer,
+    customer,
+    dispatch,
+    orderSuccess,
+    id,
+    editSuccess,
+    navigate,
+  ]);
 
+  //Handlers
   const handleDelete = (id) => {
     dispatch(deleteCartItem(id, customer._id));
-  };
-
-  const toggleEdit = () => {
-    if (!editState) {
-      setEditState(true);
-    }
   };
 
   const submitHandler = (e) => {
@@ -115,6 +123,14 @@ const CheckoutScreen = () => {
   const orderHandler = () => {
     dispatch(createOrder(cartItems, dbCustomer._id));
   };
+
+  //Functions
+  const toggleEdit = () => {
+    if (!editState) {
+      setEditState(true);
+    }
+  };
+
   return (
     <>
       {" "}

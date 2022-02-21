@@ -5,15 +5,20 @@ import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
 const AdminScreen = () => {
+  //Hooks
   const navigate = useNavigate();
+
+  //Selectors
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
 
+  //UseEffect
   useEffect(() => {
     if (adminInfo && !adminInfo.isAdmin) {
       navigate("/");
     }
   }, [adminInfo, navigate]);
+
   return (
     <>
       <Row>

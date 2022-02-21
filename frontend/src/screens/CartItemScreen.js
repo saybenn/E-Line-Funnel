@@ -12,6 +12,7 @@ import {
 } from "../constants/customerConstants";
 
 const CartItemScreen = () => {
+  //Hooks
   const [qtySmall, setQtySmall] = useState("");
   const [priceSmall, setPriceSmall] = useState("");
   const [qtyMedium, setQtyMedium] = useState("");
@@ -25,19 +26,22 @@ const CartItemScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const cartGetSingle = useSelector((state) => state.cartGetSingle);
-  const { cartItem, loading, error } = cartGetSingle;
+  //Selectors
+  const cartSingleItem = useSelector((state) => state.cartSingleItem);
+  const { cartItem, loading, error } = cartSingleItem;
   const cartEdit = useSelector((state) => state.cartEdit);
   const { success, error: editError } = cartEdit;
   const customerCreate = useSelector((state) => state.customerCreate);
   const { customer } = customerCreate;
 
+  //UseEffect
   useEffect(() => {
     if (!cartItem) {
       dispatch(getSingleCartItem(customer._id, id));
     }
-  }, [cartItem, dispatch]);
+  }, [cartItem, dispatch, customer, id]);
 
+  //Handlers
   const handleSmall = (e) => {
     switch (+e.target.value) {
       case 0:
@@ -156,7 +160,7 @@ const CartItemScreen = () => {
     }
   };
 
-  const handleOrder = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(
       editCart(
@@ -210,7 +214,7 @@ const CartItemScreen = () => {
                   <p>{cartItem.product.description}</p>
                 </Col>
               </Row>{" "}
-              <Form onSubmit={handleOrder}>
+              <Form onSubmit={handleUpdate}>
                 <Row className="my-3">
                   <Row className="my-3 d-flex align-items-end">
                     <Col md={7}>

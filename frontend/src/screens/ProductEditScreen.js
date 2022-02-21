@@ -7,15 +7,11 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { getEditProduct, updateProduct } from "../actions/adminActions";
-import {
-  PRODUCT_EDIT_RESET,
-  PRODUCT_GET_RESET,
-} from "../constants/adminConstants";
+import { PRODUCT_GET_RESET } from "../constants/adminConstants";
 import { useParams } from "react-router-dom";
 
 const ProductEditScreen = () => {
-  const { id } = useParams();
-
+  //Hooks
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [lineUp, setLineUp] = useState("");
@@ -23,12 +19,13 @@ const ProductEditScreen = () => {
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(0);
 
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Selectors
   const getProduct = useSelector((state) => state.getProduct);
   const { loading, error, product } = getProduct;
-
   const productEdit = useSelector((state) => state.productEdit);
   const {
     loading: loadingEdit,
@@ -36,6 +33,7 @@ const ProductEditScreen = () => {
     success: successEdit,
   } = productEdit;
 
+  //UseEffect
   useEffect(() => {
     if (!product) {
       dispatch(getEditProduct(id));
@@ -51,8 +49,9 @@ const ProductEditScreen = () => {
       dispatch({ type: PRODUCT_GET_RESET });
       navigate("/admin/products");
     }
-  }, [dispatch, successEdit, id, product]);
+  }, [dispatch, successEdit, id, product, navigate]);
 
+  //Handlers
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();

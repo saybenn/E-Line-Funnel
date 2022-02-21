@@ -119,7 +119,7 @@ export const cartGetReducer = (state = {}, action) => {
   }
 };
 
-export const cartGetSingleReducer = (state = {}, action) => {
+export const cartSingleItemReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_SINGLE_CART_REQUEST:
       return { loading: true };

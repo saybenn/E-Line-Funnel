@@ -4,13 +4,10 @@ import {
   authAdmin,
   createProduct,
   deleteProduct,
-  deleteUser,
   getAllOrders,
   getAllProducts,
   getAllUsers,
   getProduct,
-  getUser,
-  // getUserOrders,
   registerAdmin,
   updateOrderToDelivered,
   updateProduct,
@@ -31,10 +28,5 @@ router
   .get(protect, admin, getProduct)
   .delete(protect, admin, deleteProduct)
   .put(protect, admin, updateProduct);
-router
-  .route("/customers/:id")
-  .get(protect, admin, getUser)
-  .delete(protect, admin, deleteUser);
-// router.get("/customers/orders/:id", protect, admin, getUserOrders);
 
 export default router;

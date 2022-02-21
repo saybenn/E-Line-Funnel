@@ -6,7 +6,7 @@ import {
   getLineupsReducer,
   orderCreateReducer,
   orderGetReducer,
-  ordersGetReducer,
+  customerOrdersReducer,
   orderPayReducer,
 } from "./reducers/generalReducer";
 import {
@@ -15,15 +15,13 @@ import {
   customerGetReducer,
   cartAddReducer,
   cartGetReducer,
-  cartGetSingleReducer,
+  cartSingleItemReducer,
   cartEditReducer,
   cartDeleteReducer,
 } from "./reducers/customerReducer";
 import {
   adminLoginReducer,
   userListReducer,
-  userGetReducer,
-  userDeleteReducer,
   orderListReducer,
   orderDeliverReducer,
   productListReducer,
@@ -35,8 +33,6 @@ import {
 const reducer = combineReducers({
   adminLogin: adminLoginReducer,
   userList: userListReducer,
-  userGet: userGetReducer,
-  userDelete: userDeleteReducer,
   orderList: orderListReducer,
   productList: productListReducer,
   productCreate: productCreateReducer,
@@ -48,14 +44,14 @@ const reducer = combineReducers({
   customerGet: customerGetReducer,
   cartAdd: cartAddReducer,
   cartGet: cartGetReducer,
-  cartGetSingle: cartGetSingleReducer,
+  cartSingleItem: cartSingleItemReducer,
   cartEdit: cartEditReducer,
   cartDelete: cartDeleteReducer,
   productGet: productGetReducer,
   lineupGet: getLineupsReducer,
   orderCreate: orderCreateReducer,
   orderDeliver: orderDeliverReducer,
-  ordersGet: ordersGetReducer,
+  customerOrders: customerOrdersReducer,
   orderGet: orderGetReducer,
   orderPay: orderPayReducer,
 });

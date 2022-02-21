@@ -27,11 +27,14 @@ const stripePromise = loadStripe(
 );
 
 const OrderScreen = () => {
+  //Hooks
   const [clientSecret, setClientSecret] = useState("");
   const [show, setShow] = useState(true);
 
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  //Selectors
   const orderGet = useSelector((state) => state.orderGet);
   const { order, loading, error } = orderGet;
   const customerCreate = useSelector((state) => state.customerCreate);
@@ -43,6 +46,7 @@ const OrderScreen = () => {
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { success } = orderDeliver;
 
+  //UseEffect
   useEffect(() => {
     async function stripeHandler() {
       const name = order.customer.name;
@@ -68,14 +72,7 @@ const OrderScreen = () => {
     }
   }, [dispatch, order, id, success]);
 
-  const appearance = {
-    theme: "stripe",
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
-
+  //Handlers
   const handleShowStripe = () => {
     dispatch(getCustomer(order.customer.id));
     setShow(false);
@@ -83,6 +80,15 @@ const OrderScreen = () => {
 
   const deliverOrderHandler = () => {
     dispatch(deliverOrder(order._id));
+  };
+
+  //Stripe Config
+  const appearance = {
+    theme: "stripe",
+  };
+  const options = {
+    clientSecret,
+    appearance,
   };
 
   return (

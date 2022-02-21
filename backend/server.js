@@ -12,11 +12,10 @@ import adminRoutes from "./routes/adminRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 
+//Server Setup
 dotenv.config();
 
 connectDB();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
@@ -29,11 +28,13 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
+//Routes
 app.use("/api/products", productRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
+//Build
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
@@ -42,13 +43,11 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+//Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const calculateOrderAmount = async (id) => {
   const order = await Order.findById(id);
-  //figure stripe price
-  // let findPrice = product.prices.filter((price) => {
-  //   return Object.keys(price).toString().substring(5) === qty.toString();
-  // });
-  // let amount = Object.values(findPrice[0]);
   return +(order.totalPrice * 100).toFixed(2);
 };
 
@@ -74,6 +73,7 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
+//Error Routes
 app.use(notFound);
 app.use(errorHandler);
 

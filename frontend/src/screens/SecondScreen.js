@@ -17,6 +17,7 @@ import {
 } from "../constants/customerConstants";
 
 const SecondScreen = () => {
+  //Hooks
   const [qtySmall, setQtySmall] = useState(0);
   const [priceSmall, setPriceSmall] = useState(0);
   const [qtyMedium, setQtyMedium] = useState(0);
@@ -32,8 +33,9 @@ const SecondScreen = () => {
   const lineup = "second";
   const dispatch = useDispatch();
 
+  //Selectors
   const lineupGet = useSelector((state) => state.lineupGet);
-  const { lineups, loading: lineupLoading, error: lineupError } = lineupGet;
+  const { lineups } = lineupGet;
   const productGet = useSelector((state) => state.productGet);
   const { product, loading: productLoading, error: productError } = productGet;
   const customerCreate = useSelector((state) => state.customerCreate);
@@ -41,6 +43,7 @@ const SecondScreen = () => {
   const cartAdd = useSelector((state) => state.cartAdd);
   const { success: cartSuccess, error: cartError } = cartAdd;
 
+  //UseEffect
   useEffect(() => {
     if (!product) {
       dispatch(getProduct(lineup));
@@ -49,7 +52,6 @@ const SecondScreen = () => {
       dispatch(getLineups(lineup));
     }
     if (product && product._id !== lineup._id) {
-      console.log(21212);
       dispatch({ type: GET_PRODUCT_RESET });
     }
     if (lineups && product) {
@@ -63,6 +65,7 @@ const SecondScreen = () => {
     }
   }, [product, lineups, dispatch]);
 
+  //Handlers
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 

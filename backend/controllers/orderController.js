@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 import Customer from "../models/customerModel.js";
 
+//Get Order Prices
 const getPrice = (qty) => {
   var price;
   switch (+qty) {
@@ -41,7 +42,7 @@ const getTaxPrice = (total) => {
 };
 
 const getShippingPrice = (total) => {
-  var price = total > 100.0 ? 10.0 : 50.0;
+  var price = total >= 100 ? 20 : 10;
   return +price;
 };
 
@@ -52,27 +53,32 @@ const createOrder = asyncHandler(async (req, res) => {
   const { cartItems } = req.body;
   const customer = await Customer.findById(req.params.id);
 
+  //Get Small Items Totals
   const smallItems = cartItems.map((c) => {
     return getPrice(c.qtySmall);
   });
   const smallSum = smallItems.reduce((num, a) => num + a, 0);
 
+  //Get Medium Items Totals
   const mediumItems = cartItems.map((c) => {
     return getPrice(c.qtyMedium);
   });
   const mediumSum = mediumItems.reduce((num, a) => num + a, 0);
 
+  //Get Large Items Totals
   const largeItems = cartItems.map((c) => {
     return getPrice(c.qtyLarge);
   });
   const largeSum = largeItems.reduce((num, a) => num + a, 0);
 
+  //Get ExtraLarge Items Totals
   const xtraLargeItems = cartItems.map((c) => {
     return getPrice(c.qtyXtraLarge);
   });
   const xtraLargeSum = xtraLargeItems.reduce((num, a) => num + a, 0);
+
+  //Total of All Sizes
   const sumTotal = (smallSum + mediumSum + largeSum + xtraLargeSum).toFixed(2);
-  console.log(customer.email);
   try {
     const order = new Order({
       customer: {

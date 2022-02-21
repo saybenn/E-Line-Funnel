@@ -71,57 +71,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
-//@desc Get single users
-//@route GET /api/admin/users/:id
-//@access Admin
-const getUser = asyncHandler(async (req, res) => {
-  const customer = await Customer.findById(req.params.id);
-
-  if (customer) {
-    res.json(customer);
-  } else {
-    res.status(404);
-    throw new Error("Customer not found");
-  }
-});
-
-//@desc Get users orders
-//@route GET /api/admin/users/orders/:id
-//@access Admin
-// const getUserOrders = asyncHandler(async (req, res) => {
-//   const customer = await Customer.findById(req.params.id);
-//   const orders = await Order.find({});
-//   const customerOrders = orders.filter((o) => {
-//     return o.customer.id == req.params.id;
-//   });
-//   if (customer) {
-//     res.json(customerOrders);
-//   } else {
-//     res.status(404);
-//     throw new Error("Customer orders not found");
-//   }
-// });
-
-//@desc Delete user
-//@route DELETE /api/admin/users/:id
-//@access Admin
-const deleteUser = asyncHandler(async (req, res) => {
-  const customer = await Customer.findById(req.params.id);
-  const orders = await Order.find({});
-  const customerOrders = orders.filter((o) => {
-    return o.customer.id == req.params.id;
-  });
-
-  if (customer) {
-    await customer.remove();
-    await customerOrders.remove();
-    res.json({ message: "Customer deleted." });
-  } else {
-    res.status(404);
-    throw new Error("Customer not found");
-  }
-});
-
 //@desc Get all orders
 //@route GET /api/admin/orders
 //@access Admin
@@ -261,9 +210,6 @@ export {
   updateProduct,
   deleteProduct,
   getProduct,
-  deleteUser,
-  getUser,
-  // getUserOrders,
   getOrder,
   updateOrderToDelivered,
 };

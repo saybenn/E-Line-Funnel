@@ -7,10 +7,10 @@ import {
   GET_ORDER_REQUEST,
   GET_ORDER_RESET,
   GET_ORDER_SUCCESS,
-  ORDERS_GET_FAIL,
-  ORDERS_GET_REQUEST,
-  ORDERS_GET_RESET,
-  ORDERS_GET_SUCCESS,
+  CUSTOMER_ORDERS_FAIL,
+  CUSTOMER_ORDERS_REQUEST,
+  CUSTOMER_ORDERS_RESET,
+  CUSTOMER_ORDERS_SUCCESS,
   PAY_ORDER_FAIL,
   PAY_ORDER_REQUEST,
   PAY_ORDER_SUCCESS,
@@ -92,15 +92,15 @@ export const orderGetReducer = (state = {}, action) => {
   }
 };
 
-export const ordersGetReducer = (state = {}, action) => {
+export const customerOrdersReducer = (state = {}, action) => {
   switch (action.type) {
-    case ORDERS_GET_REQUEST:
+    case CUSTOMER_ORDERS_REQUEST:
       return { loading: true };
-    case ORDERS_GET_SUCCESS:
+    case CUSTOMER_ORDERS_SUCCESS:
       return { loading: false, orders: action.payload };
-    case ORDERS_GET_FAIL:
+    case CUSTOMER_ORDERS_FAIL:
       return { loading: false, error: action.payload };
-    case ORDERS_GET_RESET:
+    case CUSTOMER_ORDERS_RESET:
       return {};
     default:
       return state;

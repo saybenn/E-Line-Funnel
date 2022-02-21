@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/adminActions";
 
 const Header = () => {
+  //Hooks
   const dispatch = useDispatch();
 
+  //Selectors
   const customerCreate = useSelector((state) => state.customerCreate);
   const { customer } = customerCreate;
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
 
+  //Handlers
   const logoutHandler = () => {
     dispatch(logout());
   };

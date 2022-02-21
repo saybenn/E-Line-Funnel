@@ -17,9 +17,11 @@ import {
 } from "../constants/adminConstants";
 
 const AdminProductScreen = () => {
+  //Hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Selectors
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
   const productList = useSelector((state) => state.productList);
@@ -28,6 +30,8 @@ const AdminProductScreen = () => {
   const { success } = productDelete;
   const productEdit = useSelector((state) => state.productEdit);
   const { success: successEdit } = productEdit;
+
+  //UseEffect
   useEffect(() => {
     if (!adminInfo || !adminInfo.isAdmin) {
       navigate("/");
@@ -40,8 +44,9 @@ const AdminProductScreen = () => {
       dispatch({ type: PRODUCT_DELETE_RESET });
       dispatch({ type: PRODUCT_EDIT_RESET });
     }
-  }, [dispatch, adminInfo, products, success, successEdit]);
+  }, [dispatch, navigate, adminInfo, products, success, successEdit]);
 
+  //Handlers
   const createProductHandler = () => {
     dispatch(createProduct());
     dispatch({ type: PRODUCT_LIST_RESET });
@@ -50,6 +55,7 @@ const AdminProductScreen = () => {
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure")) dispatch(deleteProduct(id));
   };
+
   return (
     <>
       <Row className="align-items-center justify-content-between d-flex">

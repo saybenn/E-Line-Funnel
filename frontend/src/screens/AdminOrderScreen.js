@@ -9,16 +9,19 @@ import { listOrders } from "../actions/adminActions";
 import { ORDER_LIST_RESET } from "../constants/adminConstants";
 
 const AdminOrderScreen = () => {
+  //Hooks
   const [hidePaid, setHidePaid] = useState("");
   const [hideDelivered, setHideDelivered] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Selectors
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
   const orderList = useSelector((state) => state.orderList);
   const { orders, loading, error } = orderList;
 
+  //UseEffect
   useEffect(() => {
     if (!adminInfo || !adminInfo.isAdmin) {
       navigate("/");
@@ -26,8 +29,9 @@ const AdminOrderScreen = () => {
     if (!orders) {
       dispatch(listOrders());
     }
-  }, [dispatch, adminInfo, orders]);
+  }, [dispatch, adminInfo, orders, navigate]);
 
+  //Handlers
   const handleHidePaid = () => {
     if (hidePaid === "") {
       setHidePaid(true);
@@ -53,6 +57,7 @@ const AdminOrderScreen = () => {
     }
     dispatch({ type: ORDER_LIST_RESET });
   };
+
   return (
     <>
       <Row className="align-items-center justify-content-between d-flex">

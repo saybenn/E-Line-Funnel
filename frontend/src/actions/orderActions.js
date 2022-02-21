@@ -6,9 +6,9 @@ import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAIL,
-  ORDERS_GET_FAIL,
-  ORDERS_GET_REQUEST,
-  ORDERS_GET_SUCCESS,
+  CUSTOMER_ORDERS_FAIL,
+  CUSTOMER_ORDERS_REQUEST,
+  CUSTOMER_ORDERS_SUCCESS,
   PAY_ORDER_REQUEST,
   PAY_ORDER_SUCCESS,
   PAY_ORDER_FAIL,
@@ -54,14 +54,14 @@ export const getOrder = (orderId) => async (dispatch) => {
 
 export const getOrders = (customerId) => async (dispatch) => {
   try {
-    dispatch({ type: ORDERS_GET_REQUEST });
+    dispatch({ type: CUSTOMER_ORDERS_REQUEST });
 
     const { data } = await axios.get(`/api/customers/orders/${customerId}`);
 
-    dispatch({ type: ORDERS_GET_SUCCESS, payload: data });
+    dispatch({ type: CUSTOMER_ORDERS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
-      type: ORDERS_GET_FAIL,
+      type: CUSTOMER_ORDERS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

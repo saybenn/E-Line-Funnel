@@ -26,6 +26,7 @@ import {
 } from "../constants/customerConstants";
 
 const FirstScreen = () => {
+  //Hooks
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
@@ -52,10 +53,11 @@ const FirstScreen = () => {
   const lineup = "first";
   const dispatch = useDispatch();
 
+  //Selectors
   const productGet = useSelector((state) => state.productGet);
   const { product, loading: productLoading, error: productError } = productGet;
   const lineupGet = useSelector((state) => state.lineupGet);
-  const { lineups, loading: lineupLoading, error: lineupError } = lineupGet;
+  const { lineups } = lineupGet;
   const customerCreate = useSelector((state) => state.customerCreate);
   const {
     customer,
@@ -69,6 +71,29 @@ const FirstScreen = () => {
     error: cartError,
   } = cartAdd;
 
+  //UseEffect
+  useEffect(() => {
+    if (!lineups) {
+      dispatch(getLineups(lineup));
+    }
+    if (!product) {
+      dispatch(getProduct(lineup));
+    }
+    if (product && product.lineUp.toLowerCase() !== lineup.toLowerCase()) {
+      dispatch({ type: GET_PRODUCT_RESET });
+    }
+    if (lineups && product) {
+      let check = lineups.filter((l) => {
+        return l._id === product._id;
+      });
+      if (check.length > 0) {
+        dispatch({ type: GET_LINEUPS_RESET });
+        dispatch({ type: ADD_TO_CART_RESET });
+      }
+    }
+  }, [product, lineups, lineup, dispatch]);
+
+  //Handlers
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -83,6 +108,7 @@ const FirstScreen = () => {
     setStep3(false);
   };
   const stepThreeHandler = () => {
+    //check color select
     if (color === null) {
       setMessage("Please Select A Color");
       setTimeout(() => {
@@ -90,6 +116,8 @@ const FirstScreen = () => {
       }, 3500);
       return;
     }
+
+    //check qty select
     if (
       qtySmall === 0 &&
       qtyMedium === 0 &&
@@ -102,9 +130,18 @@ const FirstScreen = () => {
       }, 3500);
       return;
     }
+    //check customer state
     if (!customer) {
       dispatch(
-        createCustomer(name, email, address, city, state, postalCode, country)
+        createCustomer({
+          name,
+          email,
+          address,
+          city,
+          state,
+          postalCode,
+          country,
+        })
       );
     }
 
@@ -112,28 +149,6 @@ const FirstScreen = () => {
     setStep2(false);
     setStep3(true);
   };
-
-  useEffect(() => {
-    if (!lineups) {
-      dispatch(getLineups(lineup));
-    }
-    if (!product) {
-      dispatch(getProduct(lineup));
-    }
-    if (product && product.lineUp.toLowerCase() !== lineup.toLowerCase()) {
-      console.log(21212);
-      dispatch({ type: GET_PRODUCT_RESET });
-    }
-    if (lineups && product) {
-      let check = lineups.filter((l) => {
-        return l._id === product._id;
-      });
-      if (check.length > 0) {
-        dispatch({ type: GET_LINEUPS_RESET });
-        dispatch({ type: ADD_TO_CART_RESET });
-      }
-    }
-  }, [product, lineups, lineup, dispatch]);
 
   const handleSmall = (e) => {
     switch (+e.target.value) {

@@ -7,16 +7,21 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const ThankyouScreen = () => {
+  //Hooks
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  //Selectors
   const orderGet = useSelector((state) => state.orderGet);
   const { order, loading, error } = orderGet;
 
+  //UseEffect
   useEffect(() => {
     if (!order) {
       dispatch(getOrder(id));
     }
   });
+
   return (
     <>
       {loading ? (
