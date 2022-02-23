@@ -318,7 +318,7 @@ const FirstScreen = () => {
                   <Col key={l._id}>
                     <Link to={`/${l.lineUp}/page`}>
                       <Card>
-                        <Card.Img variant="top" src={l.image} />
+                        <Image variant="top" fluid src={l.image} />
                         <Card.Body>
                           <Card.Title>{l.name}</Card.Title>
                         </Card.Body>

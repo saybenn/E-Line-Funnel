@@ -103,7 +103,6 @@ const getOrder = asyncHandler(async (req, res) => {
 //@route put /api/admin/orders/deliver
 //@access User
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  console.log(12);
   const order = await Order.findById(req.params.id);
   if (order) {
     order.isDelivered = true;

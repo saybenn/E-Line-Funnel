@@ -15,8 +15,9 @@ import {
   ADD_TO_CART_RESET,
   GET_CART_RESET,
 } from "../constants/customerConstants";
+import { useParams } from "react-router-dom";
 
-const ThirdScreen = () => {
+const SecondScreen = () => {
   //Hooks
   const [qtySmall, setQtySmall] = useState(0);
   const [priceSmall, setPriceSmall] = useState(0);
@@ -30,10 +31,10 @@ const ThirdScreen = () => {
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
 
-  const lineup = "third";
+  const { lineup } = useParams();
   const dispatch = useDispatch();
 
-  //Selector
+  //Selectors
   const lineupGet = useSelector((state) => state.lineupGet);
   const { lineups } = lineupGet;
   const productGet = useSelector((state) => state.productGet);
@@ -51,7 +52,9 @@ const ThirdScreen = () => {
     if (!lineups) {
       dispatch(getLineups(lineup));
     }
-    if (product && product._id !== lineup._id) {
+    if (product && product.lineUp !== lineup) {
+      handleRevisit();
+      handleClose();
       dispatch({ type: GET_PRODUCT_RESET });
     }
     if (lineups && product) {
@@ -63,7 +66,7 @@ const ThirdScreen = () => {
         dispatch({ type: ADD_TO_CART_RESET });
       }
     }
-  }, [product, lineups, dispatch]);
+  }, [product, lineups, dispatch, lineup]);
 
   //Handlers
   const handleClose = () => setShow(false);
@@ -228,7 +231,7 @@ const ThirdScreen = () => {
     setPriceMedium(0);
     setPriceLarge(0);
     setPriceXtraLarge(0);
-    setColor(null);
+    setColor("");
   };
 
   const handleCheckout = () => {
@@ -488,4 +491,4 @@ const ThirdScreen = () => {
   );
 };
 
-export default ThirdScreen;
+export default SecondScreen;

@@ -80,7 +80,6 @@ const CheckoutScreen = () => {
 
     if (orderSuccess) {
       dispatch({ type: GET_CART_RESET });
-      dispatch({ type: CREATE_ORDER_RESET });
       navigate(`/orders/${order._id}`);
     }
   }, [

@@ -1,21 +1,16 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
 import AdminLoginScreen from "./screens/AdminLoginScreen";
 import AdminCustomerScreen from "./screens/AdminCustomerScreen";
 import AdminProductScreen from "./screens/AdminProductScreen";
 import AdminOrderScreen from "./screens/AdminOrderScreen";
+import AdminEmailScreen from "./screens/AdminEmailScreen";
 import AdminScreen from "./screens/AdminScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import FirstScreen from "./screens/FirstScreen";
-import SecondScreen from "./screens/SecondScreen";
-import ThirdScreen from "./screens/ThirdScreen";
+import LineUpScreen from "./screens/LineUpScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import CartItemScreen from "./screens/CartItemScreen";
 import OrderScreen from "./screens/OrderScreen";
@@ -30,6 +25,7 @@ const App = () => {
           <Routes>
             <Route path="/admin/login" element={<AdminLoginScreen />} />
             <Route path="/admin/panel" element={<AdminScreen />} />
+            <Route path="/admin/email" element={<AdminEmailScreen />} />
             <Route path="/admin/products" element={<AdminProductScreen />} />
             <Route
               path="/admin/products/:id/edit"
@@ -39,8 +35,7 @@ const App = () => {
             <Route path="/admin/orders" element={<AdminOrderScreen />} />
             <Route path="/" element={<FirstScreen />} />
             <Route path="/first/page" element={<FirstScreen />} exact />
-            <Route path="/second/page" element={<SecondScreen />} />
-            <Route path="/third/page" element={<ThirdScreen />} />
+            <Route path="/:lineup/page" element={<LineUpScreen />} />
             <Route path="/cart/:id" element={<CartItemScreen />} exact />
             <Route path="/checkout/:id" element={<CheckoutScreen />} exact />
             <Route path="/orders/:id" element={<OrderScreen />} exact />

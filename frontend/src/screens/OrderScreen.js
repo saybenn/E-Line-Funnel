@@ -45,6 +45,8 @@ const OrderScreen = () => {
   const { adminInfo } = adminLogin;
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { success } = orderDeliver;
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order: createOrder } = orderCreate;
 
   //UseEffect
   useEffect(() => {
@@ -62,6 +64,11 @@ const OrderScreen = () => {
     if (!order) {
       dispatch(getOrder(id));
     }
+
+    if (order && createOrder && order._id !== createOrder._id) {
+      dispatch({ type: GET_ORDER_RESET });
+    }
+
     if (order && !order.isPaid) {
       stripeHandler();
     }
@@ -70,7 +77,7 @@ const OrderScreen = () => {
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch({ type: GET_ORDER_RESET });
     }
-  }, [dispatch, order, id, success]);
+  }, [dispatch, order, id, success, createOrder]);
 
   //Handlers
   const handleShowStripe = () => {

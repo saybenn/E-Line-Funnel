@@ -163,7 +163,6 @@ export const editCustomer =
   (name, email, address, city, state, postalCode, country, customerId) =>
   async (dispatch) => {
     try {
-      console.log(customerId);
       dispatch({ type: EDIT_CUSTOMER_REQUEST });
 
       const { data } = await axios.put(`/api/customers/${customerId}`, {

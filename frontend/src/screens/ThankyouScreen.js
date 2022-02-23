@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Row, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOrder } from "../actions/orderActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { GET_ORDER_RESET } from "../constants/orderConstants";
 
 const ThankyouScreen = () => {
   //Hooks
+  const [sent, setSent] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -20,15 +23,29 @@ const ThankyouScreen = () => {
     if (!order) {
       dispatch(getOrder(id));
     }
-  });
+    if (order && !order.isPaid) {
+      dispatch({ type: GET_ORDER_RESET });
+    }
+  }, [order, dispatch, id]);
+
+  //Handlers
+  const handleSend = async () => {
+    setSent(true);
+    try {
+      await axios.post("http://localhost:3000/send_thankyou", {
+        order,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : error ? (
+      {sent && <Message variant="success">Receipt has been mailed</Message>}
+      {error ? (
         <Message variant="danger">{error}</Message>
-      ) : (
+      ) : order ? (
         <>
           <h1>Thank You</h1>
           <Row>
@@ -36,14 +53,12 @@ const ThankyouScreen = () => {
           </Row>
           <hr />
           Would you like to be mailed a receipt?{" "}
-          <Button variant="primary">
-            <a
-              href={`mailto:${order.customer.email}?subject=E-Shop Order Receipt&body=${order.customer.name}, We at E-Shop greatly appreciate your decision to shop with us!`}
-            >
-              {order.customer.email}
-            </a>
+          <Button className="mx-1" variant="primary" onClick={handleSend}>
+            {order.customer.email}
           </Button>
         </>
+      ) : (
+        loading && <Loader />
       )}
     </>
   );

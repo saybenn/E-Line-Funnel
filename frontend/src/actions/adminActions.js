@@ -203,7 +203,6 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 };
 
 export const getEditProduct = (id) => async (dispatch, getState) => {
-  console.log(id);
   try {
     dispatch({ type: PRODUCT_GET_REQUEST });
 
@@ -272,7 +271,6 @@ export const deliverOrder = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${adminInfo.token}`,
       },
     };
-    console.log(config);
     await axios.put(`/api/admin/orders/${id}`, {}, config);
 
     dispatch({ type: ORDER_DELIVER_SUCCESS });
