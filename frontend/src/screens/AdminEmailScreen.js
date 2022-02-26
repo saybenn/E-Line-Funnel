@@ -10,7 +10,7 @@ const AdminEmailScreen = () => {
   const handleSend = async () => {
     setSent(true);
     try {
-      await axios.post("http://localhost:3000/send_newsletter", {
+      await axios.post("http://send_newsletter", {
         text,
         subject,
       });
