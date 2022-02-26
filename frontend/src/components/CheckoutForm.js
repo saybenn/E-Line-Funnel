@@ -38,7 +38,7 @@ const CheckoutForm = ({ clientSecret, id }) => {
         navigate(`/thankyou/${id}`);
       }, 3500);
     }
-  }, [stripe, success, clientSecret]);
+  }, [stripe, success, clientSecret, id, navigate]);
 
   //Handlers
   const handleSubmit = async (e) => {

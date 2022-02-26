@@ -66,7 +66,7 @@ const SecondScreen = () => {
         dispatch({ type: ADD_TO_CART_RESET });
       }
     }
-  }, [product, lineups, dispatch, lineup]);
+  }, [product, lineups, dispatch, lineup, handleRevisit]);
 
   //Handlers
   const handleClose = () => setShow(false);

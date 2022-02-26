@@ -23,7 +23,6 @@ import {
   GET_CART_RESET,
 } from "../constants/customerConstants";
 import { createOrder } from "../actions/orderActions";
-import { CREATE_ORDER_RESET } from "../constants/orderConstants";
 
 const CheckoutScreen = () => {
   //Hooks
